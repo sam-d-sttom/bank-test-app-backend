@@ -12,7 +12,7 @@ class TransactionsTest extends TestCase {
     protected function setUp(): void {
         parent::setUp();
         $this->artisan('migrate');
-        $this->seed(); // seeds user and wallet
+        $this->seed();
     }
 
     public function test_creates_credit_and_updates_balance() {
@@ -62,7 +62,7 @@ class TransactionsTest extends TestCase {
         $res2 = $this->postJson('/api/transactions', $payload);
         $res2->assertStatus(200);
 
-        // ensure only one transaction created
+        // ensuring only one transaction created
         $this->assertDatabaseCount('transactions', 1);
     }
 

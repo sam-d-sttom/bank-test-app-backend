@@ -14,7 +14,8 @@ class TransactionController extends Controller
 
     public function allTransactions(Request $req)
     {
-        // Get all query parameters.
+        try{
+            // Get all query parameters.
         $transactionsPerPage = (int) $req->query('per_page', 10);
         $reference = $req->query('q');
         $type = $req->query('type');
@@ -59,6 +60,12 @@ class TransactionController extends Controller
                 'total_out' => number_format((float)$totalOut, 2, '.', ',')
             ]
         ]);
+        }catch(Exception $e){
+            logger("Error occured while fetching all transactions: " . $e->getMessage());
+            return response()->json([
+                "message" => "An issue occured while trying to fetch records"
+            ], 500);
+        }
     }
 
     public function storeTransaction(StoreTransactionRequest $req)
